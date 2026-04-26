@@ -50,7 +50,16 @@ jobs:
       - name: Iniciar a API em background
         run: |
           uvicorn FastAPI.main:app --host 0.0.0.0 --port 8000 &
-          sleep 10
+          sleep 15
+          curl http://localhost:8000/ml/health || echo "API ainda não respondeu"
+
+      - name: Esperar API subir
+        run: |
+          for i in {1..10}; do
+            curl -s http://localhost:8000/ml/health && break
+            echo "Aguardando API..."
+            sleep 3
+          done
 
       - name: Verificar que a API responde
         run: |
