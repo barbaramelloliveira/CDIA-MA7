@@ -61,7 +61,5 @@ jobs:
             sleep 3
           done
 
-      - name: Verificar que a API responde
-        run: |
-          curl --fail http://localhost:8000/ml/health
-          echo "API respondeu com sucesso"
+      - name: Rodar testes
+        run: pytest tests/ -v --tb=short
