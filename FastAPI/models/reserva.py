@@ -1,6 +1,5 @@
 from pydantic import BaseModel, Field, field_validator
 from datetime import datetime, timedelta
-from typing import Optional
 
 
 class ReservaBase(BaseModel):

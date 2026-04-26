@@ -1,6 +1,4 @@
 from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel, Field
-from typing import Optional
 from FastAPI.models.pedidos import PedidoInput
 
 # IMPORTANTE: importa os pratos do outro módulo

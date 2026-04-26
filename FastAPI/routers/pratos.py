@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from typing import Optional
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel
 from datetime import datetime
 from FastAPI.models.prato import PratoInput, PratoOutput
 
