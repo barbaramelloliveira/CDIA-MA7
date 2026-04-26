@@ -20,15 +20,17 @@ jobs:
           python-version: "3.11"
 
       - name: Instalar ferramentas de qualidade
-        run: pip install autoflake black
+        run: |
+          pip install --upgrade pip
+          pip install black autoflake
 
       - name: Verificar imports não utilizados
         run: autoflake --check --remove-all-unused-imports -r . || true
 
-      - name: Verificar formatação
+      - name: Verificar formatação (black)
         run: black --check .
 
-  verificar-api:
+  testes:
     runs-on: ubuntu-latest
     needs: verificar-sintaxe
 
@@ -45,21 +47,6 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install -r requirements.txt
-          pip install uvicorn   # garante que existe
-
-      - name: Iniciar a API em background
-        run: |
-          uvicorn FastAPI.main:app --host 0.0.0.0 --port 8000 &
-          sleep 15
-          curl http://localhost:8000/ml/health || echo "API ainda não respondeu"
-
-      - name: Esperar API subir
-        run: |
-          for i in {1..10}; do
-            curl -s http://localhost:8000/ml/health && break
-            echo "Aguardando API..."
-            sleep 3
-          done
 
       - name: Rodar testes
         run: pytest tests/ -v --tb=short
