@@ -6,6 +6,7 @@ from FastAPI.routers.pratos import pratos
 
 router = APIRouter()
 
+
 @router.post("/", status_code=201)
 async def criar_pedido(pedido: PedidoInput):
 
@@ -23,5 +24,5 @@ async def criar_pedido(pedido: PedidoInput):
         "prato": prato["nome"],
         "quantidade": pedido.quantidade,
         "observacao": pedido.observacao,
-        "valor_total": valor_total
+        "valor_total": valor_total,
     }

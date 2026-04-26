@@ -8,7 +8,7 @@ X, y = make_classification(
     n_redundant=1,
     class_sep=3.0,
     weights=[0.7, 0.3],
-    random_state=42
+    random_state=42,
 )
 
 df = pd.DataFrame(X, columns=[f"feature_{i}" for i in range(X.shape[1])])

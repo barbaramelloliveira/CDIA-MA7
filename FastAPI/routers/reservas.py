@@ -10,6 +10,7 @@ router = APIRouter()
 reservas = []
 contador_id = 1
 
+
 @router.post("/", response_model=Reserva)
 def criar_reserva(reserva: ReservaCreate):
     global contador_id
@@ -17,36 +18,32 @@ def criar_reserva(reserva: ReservaCreate):
     # REGRA 1: limite de pessoas
     if reserva.pessoas > settings.max_pessoas_por_mesa:
         raise HTTPException(
-            status_code=400,
-            detail="Número de pessoas excede o permitido por mesa"
+            status_code=400, detail="Número de pessoas excede o permitido por mesa"
         )
 
     # REGRA 2: não pode duplicar mesa no mesmo dia
     for r in reservas:
         if (
-            r.mesa == reserva.mesa and
-            r.data_hora.date() == reserva.data_hora.date() and
-            r.status == "ativa"
+            r.mesa == reserva.mesa
+            and r.data_hora.date() == reserva.data_hora.date()
+            and r.status == "ativa"
         ):
             raise HTTPException(
                 status_code=400,
-                detail="Já existe uma reserva ativa para essa mesa nesse dia"
+                detail="Já existe uma reserva ativa para essa mesa nesse dia",
             )
 
-    nova_reserva = Reserva(
-        id=contador_id,
-        **reserva.model_dump()
-    )
+    nova_reserva = Reserva(id=contador_id, **reserva.model_dump())
 
     reservas.append(nova_reserva)
     contador_id += 1
 
     return nova_reserva
 
+
 @router.get("/", response_model=List[Reserva])
 def listar_reservas(
-    data: Optional[datetime] = Query(None),
-    status: Optional[str] = Query("ativa")
+    data: Optional[datetime] = Query(None), status: Optional[str] = Query("ativa")
 ):
     resultado = reservas
 
@@ -58,6 +55,7 @@ def listar_reservas(
 
     return resultado
 
+
 @router.get("/{reserva_id}", response_model=Reserva)
 def buscar_reserva(reserva_id: int):
     for r in reservas:
@@ -65,6 +63,7 @@ def buscar_reserva(reserva_id: int):
             return r
 
     raise HTTPException(status_code=404, detail="Reserva não encontrada")
+
 
 @router.delete("/{reserva_id}")
 def cancelar_reserva(reserva_id: int):
@@ -74,6 +73,7 @@ def cancelar_reserva(reserva_id: int):
             return {"mensagem": "Reserva cancelada"}
 
     raise HTTPException(status_code=404, detail="Reserva não encontrada")
+
 
 @router.get("/mesa/{numero}", response_model=List[Reserva])
 def reservas_por_mesa(numero: int):

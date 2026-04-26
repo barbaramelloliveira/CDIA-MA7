@@ -3,9 +3,7 @@ import pandas as pd
 
 
 def gerar_dataset(
-    n_samples: int = 1000,
-    seed: int = 42,
-    proporcao_positivos: float = 0.3
+    n_samples: int = 1000, seed: int = 42, proporcao_positivos: float = 0.3
 ):
     """
     Gera um dataset sintético para análise de crédito (inadimplência).
@@ -49,31 +47,37 @@ def gerar_dataset(
     rng.shuffle(inadimplente)
 
     # Features condicionadas ao target
-    renda_mensal = np.where(inadimplente,
-                            rng.uniform(1000, 3000, n_samples),
-                            rng.uniform(3000, 10000, n_samples))
+    renda_mensal = np.where(
+        inadimplente,
+        rng.uniform(1000, 3000, n_samples),
+        rng.uniform(3000, 10000, n_samples),
+    )
 
-    divida_atual = np.where(inadimplente,
-                            rng.uniform(2000, 15000, n_samples),
-                            rng.uniform(0, 5000, n_samples))
+    divida_atual = np.where(
+        inadimplente,
+        rng.uniform(2000, 15000, n_samples),
+        rng.uniform(0, 5000, n_samples),
+    )
 
-    historico_pagamentos = np.where(inadimplente,
-                                    rng.integers(0, 5, n_samples),
-                                    rng.integers(5, 10, n_samples))
+    historico_pagamentos = np.where(
+        inadimplente, rng.integers(0, 5, n_samples), rng.integers(5, 10, n_samples)
+    )
 
     idade = rng.integers(18, 70, n_samples)
 
     num_dependentes = rng.integers(0, 5, n_samples)
 
     # DataFrame final
-    df = pd.DataFrame({
-        "renda_mensal": renda_mensal,
-        "divida_atual": divida_atual,
-        "historico_pagamentos": historico_pagamentos,
-        "idade": idade,
-        "num_dependentes": num_dependentes,
-        "inadimplente": inadimplente
-    })
+    df = pd.DataFrame(
+        {
+            "renda_mensal": renda_mensal,
+            "divida_atual": divida_atual,
+            "historico_pagamentos": historico_pagamentos,
+            "idade": idade,
+            "num_dependentes": num_dependentes,
+            "inadimplente": inadimplente,
+        }
+    )
 
     # Separação padrão ML
     X = df.drop(columns="inadimplente")

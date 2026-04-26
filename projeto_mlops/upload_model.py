@@ -23,7 +23,7 @@ for filename in ["model.pkl", "README.md", "requirements.txt"]:
         path_in_repo=filename,
         repo_id=repo_id,
         repo_type="model",
-        commit_message=f"Add {filename}"
+        commit_message=f"Add {filename}",
     )
     print(f"✅ {filename} publicado")
 

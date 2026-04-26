@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field
 
+
 class BebidaInput(BaseModel):
     nome: str = Field(min_length=3, max_length=100)
     categoria: str = Field(pattern="^(vinho|agua|refrigerante|suco|cerveja)$")

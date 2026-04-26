@@ -7,10 +7,12 @@ router = APIRouter()
 REPO_ID = "Barbz2605/fraud-detector-v1"
 _model = None
 
+
 def get_model():
     global _model
     if _model is None:
         from projeto_mlops.model_utils import load_model
+
         _model = load_model(REPO_ID)
     return _model
 
@@ -34,13 +36,17 @@ class PredictOutput(BaseModel):
 async def predict(input: PredictInput):
     model = get_model()
 
-    features = np.array([[
-        input.valor_transacao,
-        input.hora_transacao,
-        input.distancia_ultima_compra,
-        input.tentativas_senha,
-        input.pais_diferente
-    ]])
+    features = np.array(
+        [
+            [
+                input.valor_transacao,
+                input.hora_transacao,
+                input.distancia_ultima_compra,
+                input.tentativas_senha,
+                input.pais_diferente,
+            ]
+        ]
+    )
 
     prediction = int(model.predict(features)[0])
     probability = float(model.predict_proba(features)[0][0])
@@ -51,8 +57,9 @@ async def predict(input: PredictInput):
         prediction=prediction,
         probability=round(probability, 4),
         label=label,
-        model_version=REPO_ID
+        model_version=REPO_ID,
     )
+
 
 @router.get("/health")
 async def health():
@@ -70,8 +77,4 @@ async def health():
         model_status = "degraded"
         model_info = str(e)
 
-    return {
-        "api": "ok",
-        "model": model_status,
-        "model_repo": model_info
-    }
+    return {"api": "ok", "model": model_status, "model_repo": model_info}

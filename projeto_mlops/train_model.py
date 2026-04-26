@@ -3,7 +3,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
 from gerar_dataset import gerar_dataset
 import joblib
-import numpy as np 
+import numpy as np
 import os
 import pandas as pd
 
@@ -19,10 +19,7 @@ if __name__ == "__main__":
 
     # 2. Separar treino e teste
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y,
-        test_size=0.2,
-        random_state=42,
-        stratify=y
+        X, y, test_size=0.2, random_state=42, stratify=y
     )
 
     # 3. Treinar modelo
@@ -45,7 +42,7 @@ if __name__ == "__main__":
     # 8. Validar artefato
     amostra = X_test[:5]
 
-    pred_original  = model.predict(amostra)
+    pred_original = model.predict(amostra)
     pred_carregado = model_carregado.predict(amostra)
 
     assert np.array_equal(pred_original, pred_carregado), "Predições divergem!"

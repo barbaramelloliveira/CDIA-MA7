@@ -15,7 +15,9 @@ class ReservaCreate(ReservaBase):
     @classmethod
     def validar_antecedencia(cls, value: datetime):
         if value < datetime.now() + timedelta(hours=1):
-            raise ValueError("Reserva deve ser feita com pelo menos 1 hora de antecedência")
+            raise ValueError(
+                "Reserva deve ser feita com pelo menos 1 hora de antecedência"
+            )
         return value
 
 
