@@ -69,6 +69,20 @@ bebidas = [
     },
 ]
 
+@router.get("/")
+async def listar_bebidas(tipo: str = None, alcoolica: bool = None):
+    resultado = bebidas
+
+    if tipo:
+        resultado = [b for b in resultado if b.get("categoria").lower() == tipo.lower()]
+
+    if alcoolica is not None:
+        resultado = [b for b in resultado if b["alcoolica"] == alcoolica]
+
+    # 👇 traduz categoria -> tipo
+    return [
+        {**b, "tipo": b["categoria"]} for b in resultado
+    ]
 
 @router.get("/{bebida_id}")
 async def buscar_bebida(bebida_id: int):
@@ -88,9 +102,14 @@ async def criar_bebida(bebida: BebidaInput):
     nova_bebida = {
         "id": novo_id,
         "criado_em": datetime.now().isoformat(),
-        **bebida.model_dump(),
+        "categoria": bebida.tipo,  # 👈 conversão aqui
+        "nome": bebida.nome,
+        "preco": bebida.preco,
+        "alcoolica": bebida.alcoolica,
+        "ml": bebida.ml,
+        "disponivel": bebida.disponivel,
     }
 
     bebidas.append(nova_bebida)
 
-    return nova_bebida
+    return {**nova_bebida, "tipo": nova_bebida["categoria"]}

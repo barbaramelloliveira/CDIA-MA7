@@ -3,7 +3,6 @@ from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
 
 from FastAPI.config import settings
-
 from FastAPI.routers import bebidas, pratos, reservas, pedidos
 from FastAPI.routers.predict import router as predict_router
 
