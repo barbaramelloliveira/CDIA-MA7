@@ -1,6 +1,6 @@
 import pytest
 
-
+@pytest.mark.contrato
 def test_listar_bebidas_retorna_200(client):
     response = client.get("/bebidas")
     assert response.status_code == 200

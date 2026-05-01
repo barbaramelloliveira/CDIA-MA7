@@ -1,3 +1,6 @@
+import pytest
+
+@pytest.mark.contrato
 def test_criar_pedido_com_prato_existente(client):
     payload = {
         "prato_id": 1,

@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, ConfigDict
 from datetime import datetime, timedelta
 
 
@@ -25,5 +25,4 @@ class Reserva(ReservaBase):
     id: int
     status: str = "ativa"
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
