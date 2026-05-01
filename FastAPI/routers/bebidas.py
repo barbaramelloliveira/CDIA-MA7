@@ -102,7 +102,7 @@ async def criar_bebida(bebida: BebidaInput):
     nova_bebida = {
         "id": novo_id,
         "criado_em": datetime.now().isoformat(),
-        "categoria": bebida.tipo,  # 👈 conversão aqui
+        "categoria": bebida.categoria,  # 👈 conversão aqui
         "nome": bebida.nome,
         "preco": bebida.preco,
         "alcoolica": bebida.alcoolica,

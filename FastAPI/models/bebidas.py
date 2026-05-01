@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-
+from datetime import datetime
 
 class BebidaInput(BaseModel):
     nome: str = Field(min_length=3, max_length=100)
@@ -10,12 +10,17 @@ class BebidaInput(BaseModel):
     disponivel: bool = True
 
 
-class BebidaOutput(BaseModel):
-    id: int
+from typing import Optional
+
+class BebidaInput(BaseModel):
     nome: str
     categoria: str
     preco: float
     alcoolica: bool
     ml: int
     disponivel: bool
+
+
+class BebidaOutput(BebidaInput):
+    id: int
     criado_em: str
