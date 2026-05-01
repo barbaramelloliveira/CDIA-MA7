@@ -49,7 +49,7 @@ async def predict(input: PredictInput):
     )
 
     prediction = int(model.predict(features)[0])
-    probability = float(model.predict_proba(features)[0][0])
+    probability = float(model.predict_proba(features)[0][1])
 
     label = "fraude" if prediction == 0 else "legitimo"
 
