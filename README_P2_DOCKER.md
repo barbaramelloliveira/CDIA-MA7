@@ -59,3 +59,27 @@ Para limpar também o banco de desenvolvimento:
 ```bash
 docker compose down -v
 ```
+
+## Publicar imagem no Docker Hub
+
+Crie um repositório no Docker Hub chamado `bella-tavola` e gere um access token.
+
+No GitHub, cadastre estes secrets em `Settings > Secrets and variables > Actions`:
+
+- `DOCKER_USERNAME`: seu usuário do Docker Hub.
+- `DOCKER_PASSWORD`: token de acesso do Docker Hub.
+
+Push manual:
+
+```bash
+docker login
+docker build -t SEU_USUARIO_DOCKER/bella-tavola:v1 .
+docker push SEU_USUARIO_DOCKER/bella-tavola:v1
+```
+
+Publicação automática:
+
+O arquivo `.github/workflows/ci.yml` tem o job `docker`, que roda em push para `main` depois de `full-tests`. Ele publica duas tags:
+
+- `SEU_USUARIO_DOCKER/bella-tavola:${GITHUB_SHA}`
+- `SEU_USUARIO_DOCKER/bella-tavola:latest`
